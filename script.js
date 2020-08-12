@@ -25,7 +25,8 @@
             $(".alert").css({ display: "block" });
             setTimeout(function () {
                 $(".alert").css({ display: "none" });
-            }, 1000);
+            }, 500);
+            switchPlayers();
         }
         if (checkForVictory(slots)) {
             $(".winner").css({ display: "block" });
@@ -60,29 +61,6 @@
 
     function checkForVictory(slots) {
         var count = 0;
-        for (var i = 0; i < slots.length; i++) {
-            if (slots.eq(i).hasClass(currentPlayer)) {
-                count++;
-                if (count == 4) {
-                    return true;
-                }
-            } else {
-                count = 0;
-            }
-        }
-        for (var i = 0; i < 7; i++) {
-            var slotsInRow = $(".row" + i);
-            for (var j = 0; j < slotsInRow.length; j++) {
-                if (slotsInRow.eq(j).hasClass(currentPlayer)) {
-                    count++;
-                    if (count === 4) {
-                        return true;
-                    }
-                } else {
-                    count = 0;
-                }
-            }
-        }
         var diagVictories = [
             [0, 7, 14, 21],
             [1, 8, 15, 22],
@@ -109,6 +87,33 @@
             [22, 27, 32, 37],
             [23, 28, 33, 38],
         ];
+        // vertical victory
+        for (var i = 0; i < slots.length; i++) {
+            if (slots.eq(i).hasClass(currentPlayer)) {
+                count++;
+                if (count === 4) {
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+        }
+        // horizontal victory
+        for (var i = 0; i < 7; i++) {
+            var slotsInRow = $(".row" + i);
+            for (var j = 0; j < slotsInRow.length; j++) {
+                if (slotsInRow.eq(j).hasClass(currentPlayer)) {
+                    count++;
+                    if (count === 4) {
+                        return true;
+                    }
+                } else {
+                    count = 0;
+                }
+            }
+            console.log(count);
+        }
+        // diagonal victory
         for (var i = 0; i < diagVictories.length; i++) {
             if (
                 slots.eq(diagVictories[i][0]).hasClass(currentPlayer) &&

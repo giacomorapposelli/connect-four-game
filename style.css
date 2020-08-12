@@ -7,12 +7,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .slot {
-    width: 90px;
-    height: 90px;
+    width: 5em;
+    height: 5em;
     background-color: rgba(17, 17, 227, 0.838);
 }
 
@@ -87,7 +86,7 @@ body {
 
 .winner {
     text-align: center;
-    font-size: 100px;
+    font-size: 5em;
     background-color: black;
     width: 100%;
     position: absolute;
