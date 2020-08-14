@@ -7,12 +7,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .slot {
-    width: 90px;
-    height: 90px;
+    width: 5em;
+    height: 5em;
     background-color: rgba(17, 17, 227, 0.838);
 }
 
@@ -25,6 +24,10 @@ body {
     position: relative;
     top: 8%;
     left: 8%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 #board {
@@ -73,11 +76,27 @@ body {
 }
 
 .player1 .hole {
+    background-color: black;
+    transition: background-color 0.25s ease-in;
     background-color: red;
 }
 
 .player2 .hole {
+    background-color: black;
+    transition: background-color 0.25s ease-in;
     background-color: gold;
+}
+
+.white .hole {
+    border: 8px solid white;
+    box-sizing: border-box;
+}
+
+.circle {
+    background-color: #fff;
+    height: 33%;
+    width: 33%;
+    border-radius: 50%;
 }
 
 .title {
@@ -87,7 +106,7 @@ body {
 
 .winner {
     text-align: center;
-    font-size: 100px;
+    font-size: 5em;
     background-color: black;
     width: 100%;
     position: absolute;
@@ -108,6 +127,11 @@ button {
     color: rgba(17, 17, 227, 0.838);
     cursor: pointer;
     font-weight: bold;
+}
+
+button:active,
+button:focus {
+    outline: none;
 }
 
 .alert {

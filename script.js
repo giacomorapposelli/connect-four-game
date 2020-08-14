@@ -6,6 +6,7 @@
         var selectedColumn = $(event.currentTarget);
         var slotsInColumn = selectedColumn.children();
         var emptySlotsFound;
+        event.stopPropagation();
 
         for (var i = 5; i >= 0; i--) {
             if (
@@ -22,10 +23,13 @@
         }
         if (!emptySlotsFound) {
             $("#board").addClass("animation");
+            setTimeout(function () {
+                $("#board").removeClass("animation");
+            }, 500);
             $(".alert").css({ display: "block" });
             setTimeout(function () {
                 $(".alert").css({ display: "none" });
-            }, 1000);
+            }, 500);
         }
         if (checkForVictory(slots)) {
             $(".winner").css({ display: "block" });
@@ -45,6 +49,7 @@
                 $(".winner").css({ color: "gold" });
                 $(".winner").html("YELLOW WINS");
             }
+            $(".column").off("click");
         } else {
             switchPlayers();
         }
@@ -60,29 +65,6 @@
 
     function checkForVictory(slots) {
         var count = 0;
-        for (var i = 0; i < slots.length; i++) {
-            if (slots.eq(i).hasClass(currentPlayer)) {
-                count++;
-                if (count == 4) {
-                    return true;
-                }
-            } else {
-                count = 0;
-            }
-        }
-        for (var i = 0; i < 7; i++) {
-            var slotsInRow = $(".row" + i);
-            for (var j = 0; j < slotsInRow.length; j++) {
-                if (slotsInRow.eq(j).hasClass(currentPlayer)) {
-                    count++;
-                    if (count === 4) {
-                        return true;
-                    }
-                } else {
-                    count = 0;
-                }
-            }
-        }
         var diagVictories = [
             [0, 7, 14, 21],
             [1, 8, 15, 22],
@@ -109,6 +91,93 @@
             [22, 27, 32, 37],
             [23, 28, 33, 38],
         ];
+        // vertical victory
+        for (var i = 0; i < slots.length; i++) {
+            if (slots.eq(i).hasClass(currentPlayer)) {
+                count++;
+                if (count === 4) {
+                    slots.eq(i).addClass("white");
+                    slots
+                        .eq(i)
+                        .html(
+                            "<div class='hole'><div class='circle'></div></div>"
+                        );
+                    setTimeout(function () {
+                        slots.eq(i - 1).addClass("white");
+                        slots
+                            .eq(i - 1)
+                            .html(
+                                "<div class='hole'><div class='circle'></div></div>"
+                            );
+                    }, 500);
+                    setTimeout(function () {
+                        slots.eq(i - 2).addClass("white");
+                        slots
+                            .eq(i - 2)
+                            .html(
+                                "<div class='hole'><div class='circle'></div></div>"
+                            );
+                    }, 1000);
+                    setTimeout(function () {
+                        slots.eq(i - 3).addClass("white");
+                        slots
+                            .eq(i - 3)
+                            .html(
+                                "<div class='hole'><div class='circle'></div></div>"
+                            );
+                    }, 1500);
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+        }
+        // horizontal victory
+        for (var i = 0; i < 7; i++) {
+            var slotsInRow = $(".row" + i);
+            for (var j = 0; j < slotsInRow.length; j++) {
+                if (slotsInRow.eq(j).hasClass(currentPlayer)) {
+                    count++;
+                    if (count === 4) {
+                        console.log(slotsInRow.eq(j - 1));
+                        slotsInRow.eq(j - 3).addClass("white");
+                        slotsInRow
+                            .eq(j - 3)
+                            .html(
+                                "<div class='hole'><div class='circle'></div></div>"
+                            );
+                        setTimeout(function () {
+                            slotsInRow.eq(j - 2).addClass("white");
+                            slotsInRow
+                                .eq(j - 2)
+                                .html(
+                                    "<div class='hole'><div class='circle'></div></div>"
+                                );
+                        }, 500);
+                        setTimeout(function () {
+                            slotsInRow.eq(j - 1).addClass("white");
+                            slotsInRow
+                                .eq(j - 1)
+                                .html(
+                                    "<div class='hole'><div class='circle'></div></div>"
+                                );
+                        }, 1000);
+                        setTimeout(function () {
+                            slotsInRow.eq(j).addClass("white");
+                            slotsInRow
+                                .eq(j)
+                                .html(
+                                    "<div class='hole'><div class='circle'></div></div>"
+                                );
+                        }, 1500);
+                        return true;
+                    }
+                } else {
+                    count = 0;
+                }
+            }
+        }
+        // diagonal victory
         for (var i = 0; i < diagVictories.length; i++) {
             if (
                 slots.eq(diagVictories[i][0]).hasClass(currentPlayer) &&
@@ -116,6 +185,34 @@
                 slots.eq(diagVictories[i][2]).hasClass(currentPlayer) &&
                 slots.eq(diagVictories[i][3]).hasClass(currentPlayer)
             ) {
+                slots.eq(diagVictories[i][3]).addClass("white");
+                slots
+                    .eq(diagVictories[i][3])
+                    .html("<div class='hole'><div class='circle'></div></div>");
+                setTimeout(function () {
+                    slots.eq(diagVictories[i][2]).addClass("white");
+                    slots
+                        .eq(diagVictories[i][2])
+                        .html(
+                            "<div class='hole'><div class='circle'></div></div>"
+                        );
+                }, 500);
+                setTimeout(function () {
+                    slots.eq(diagVictories[i][1]).addClass("white");
+                    slots
+                        .eq(diagVictories[i][1])
+                        .html(
+                            "<div class='hole'><div class='circle'></div></div>"
+                        );
+                }, 1000);
+                setTimeout(function () {
+                    slots.eq(diagVictories[i][0]).addClass("white");
+                    slots
+                        .eq(diagVictories[i][0])
+                        .html(
+                            "<div class='hole'><div class='circle'></div></div>"
+                        );
+                }, 1500);
                 return true;
             }
         }
