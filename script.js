@@ -1,8 +1,10 @@
 (function () {
     var currentPlayer = "player1";
     var slots = $(".slot");
+    var p1 = prompt("Player 1,enter your Name");
+    var p2 = prompt("Player 2,enter your Name");
 
-    $(".column").on("click touchstart", function (event) {
+    $(".column").on("click", function (event) {
         var selectedColumn = $(event.currentTarget);
         var slotsInColumn = selectedColumn.children();
         var emptySlotsFound;
@@ -32,24 +34,26 @@
             }, 500);
         }
         if (checkForVictory(slots)) {
-            $(".winner").css({ display: "block" });
-            $("#board").css({
-                animation: "shake 4s",
-                animationIterationCount: "initial",
-            });
-            $("button").css({ backgroundColor: "white" });
             setTimeout(function () {
-                $(".winner").css({ display: "none" });
-            }, 4000);
+                $(".winner").css({ display: "block" });
+                $("#board").css({
+                    animation: "shake 4s",
+                    animationIterationCount: "initial",
+                });
+                $("button").css({ backgroundColor: "white" });
+                setTimeout(function () {
+                    $(".winner").css({ display: "none" });
+                }, 4000);
 
-            if (currentPlayer === "player1") {
-                $(".winner").css({ color: "red" });
-                $(".winner").html("RED WINS");
-            } else {
-                $(".winner").css({ color: "gold" });
-                $(".winner").html("YELLOW WINS");
-            }
-            $(".column").off("click");
+                if (currentPlayer === "player1") {
+                    $(".winner").css({ color: "red" });
+                    $(".winner").html(p1.toUpperCase() + " WINS");
+                } else {
+                    $(".winner").css({ color: "gold" });
+                    $(".winner").html(p2.toUpperCase() + " WINS");
+                }
+                $(".column").off("click");
+            }, 2000);
         } else {
             switchPlayers();
         }
@@ -96,12 +100,14 @@
             if (slots.eq(i).hasClass(currentPlayer)) {
                 count++;
                 if (count === 4) {
-                    slots.eq(i).addClass("white");
-                    slots
-                        .eq(i)
-                        .html(
-                            "<div class='hole'><div class='circle'></div></div>"
-                        );
+                    setTimeout(function () {
+                        slots.eq(i).addClass("white");
+                        slots
+                            .eq(i)
+                            .html(
+                                "<div class='hole'><div class='circle'></div></div>"
+                            );
+                    }, 250);
                     setTimeout(function () {
                         slots.eq(i - 1).addClass("white");
                         slots
@@ -109,7 +115,7 @@
                             .html(
                                 "<div class='hole'><div class='circle'></div></div>"
                             );
-                    }, 500);
+                    }, 750);
                     setTimeout(function () {
                         slots.eq(i - 2).addClass("white");
                         slots
@@ -117,7 +123,7 @@
                             .html(
                                 "<div class='hole'><div class='circle'></div></div>"
                             );
-                    }, 1000);
+                    }, 1250);
                     setTimeout(function () {
                         slots.eq(i - 3).addClass("white");
                         slots
@@ -125,7 +131,7 @@
                             .html(
                                 "<div class='hole'><div class='circle'></div></div>"
                             );
-                    }, 1500);
+                    }, 1750);
                     return true;
                 }
             } else {
