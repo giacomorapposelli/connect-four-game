@@ -1,8 +1,20 @@
 (function () {
     var currentPlayer = "player1";
     var slots = $(".slot");
-    var p1 = prompt("Player 1,enter your Name");
-    var p2 = prompt("Player 2,enter your Name");
+    function ask(msg, errMsg) {
+        var name;
+        do {
+            name = prompt(msg);
+            if (!name) {
+                alert(errMsg);
+            }
+        } while (!name);
+        return name;
+    }
+
+    var p1, p2;
+    p1 = ask("Player1:", "Please enter your name");
+    p2 = ask("Player2:", "Please enter your name");
 
     $(".column").on("click", function (event) {
         var selectedColumn = $(event.currentTarget);
@@ -52,7 +64,7 @@
                     $(".winner").css({ color: "gold" });
                     $(".winner").html(p2.toUpperCase() + " WINS");
                 }
-                $(".column").off("click");
+                // $(".column").off("click");
             }, 2000);
         } else {
             switchPlayers();
@@ -224,7 +236,15 @@
         }
     }
 
-    $("button").on("click", function () {
+    $(".reset").on("click", function () {
         location.reload();
+    });
+    $(".restart").on("click", function () {
+        for (var i = 0; i < slots.length; i++) {
+            slots.eq(i).removeClass("player1");
+            slots.eq(i).removeClass("player2");
+            slots.eq(i).removeClass("white");
+            slots.eq(i).html("<div class='hole'></div>");
+        }
     });
 })();
